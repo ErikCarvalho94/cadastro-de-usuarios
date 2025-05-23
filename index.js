@@ -33,6 +33,21 @@ app.get('/usuarios', async (req, res) => {
   }
 });
 
+app.post('/usuarios', async (req, res) => {
+  const { nome, email} = req.body;
+
+  try {
+    const result = await pool.query(
+      'INSERT INTO usuarios (nome, email) VALUES ($1, $2) RETURNING *',
+      [nome, email]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao adicionar usuário' });
+  }
+});
+
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
 });
