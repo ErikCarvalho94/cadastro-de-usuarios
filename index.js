@@ -48,6 +48,22 @@ app.post('/usuarios', async (req, res) => {
   }
 });
 
+app.put('/usuarios/:id', async (req, res) => {
+  const { id } = req.params;         // Pega o ID da URL
+  const { nome, email } = req.body; // Pega nome e email do corpo da requisição
+  
+  try{
+    await pool.query('UPDATE usuarios SET nome = $1, email = $2 WHERE id = $3', [nome, email, id]);
+    res.json({ message: 'Usuário atualizado!'})
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao atualizar usuário' });
+  }
+});
+
+
+
+
+
 app.listen(3000, () => {
   console.log('Servidor rodando em http://localhost:3000');
 });
