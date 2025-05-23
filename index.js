@@ -7,11 +7,10 @@ app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'crud_usuarios',
-    password: 'arce278#',
-    port: 5432
+  connectionString: 'postgresql://neondb_owner:npg_9WSngHx2TXAi@ep-plain-flower-acc3euzs-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require',
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 app.get('/', async (req, res) => {
