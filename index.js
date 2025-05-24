@@ -1,13 +1,15 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { Pool } = require('pg');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+const { Pool } = require('pg');
+
 const pool = new Pool({
-  connectionString: 'postgresql://neondb_owner:npg_9WSngHx2TXAi@ep-plain-flower-acc3euzs-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require',
+  connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
   },
