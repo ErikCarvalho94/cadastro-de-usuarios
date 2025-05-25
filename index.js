@@ -61,7 +61,21 @@ app.put('/usuarios/:id', async (req, res) => {
   }
 });
 
+app.delete('/usuarios/:id', async (req, res) => {
+  const { id } = req.params; // Pega o ID da URL
 
+  try {
+    const result = await pool.query('DELETE FROM usuarios WHERE id = $1', [id]);
+
+    if (result.rowCount > 0) {
+      res.json({ message: 'usuário deletado com sucesso!' });
+    } else {
+      res.status(404).json({ message: 'Usuário não encontrado' })
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao deletar usuário'})
+  }
+})
 
 
 
