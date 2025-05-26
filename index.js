@@ -42,7 +42,15 @@ app.post('/usuarios', async (req, res) => {
       'INSERT INTO usuarios (nome, email) VALUES ($1, $2) RETURNING *',
       [nome, email]
     );
-    res.status(201).json(result.rows[0]);
+
+    const usuarioInserido = result.rows[0]
+
+    await pool.query(
+      'INSERT INTO auditoria (acao, dados) VALUES ($1, $2)',
+      ['inserção',JSON.stringify(usuarioInserido)]
+    );
+
+    res.status(201).json(usuarioInserido);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao adicionar usuário' });
@@ -54,7 +62,22 @@ app.put('/usuarios/:id', async (req, res) => {
   const { nome, email } = req.body; // Pega nome e email do corpo da requisição
   
   try{
-    await pool.query('UPDATE usuarios SET nome = $1, email = $2 WHERE id = $3', [nome, email, id]);
+    const result = await pool.query(
+      'UPDATE usuarios SET nome = $1, email = $2 WHERE id = $3', 
+      [nome, email, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const usuarioAtualizado = result.rows[0];
+
+    await pool.query(
+      'INSERT INTO auditoria (acao, dados) VALUES ($1, $2)',
+      ['atualização', JSON.stringify(usuarioAtualizado)]
+    );
+
     res.json({ message: 'Usuário atualizado!'})
   } catch (error) {
     res.status(500).json({ error: 'Erro ao atualizar usuário' });
@@ -65,9 +88,21 @@ app.delete('/usuarios/:id', async (req, res) => {
   const { id } = req.params; // Pega o ID da URL
 
   try {
-    const result = await pool.query('DELETE FROM usuarios WHERE id = $1', [id]);
+    const usuarioResult = await pool.query('SELECT FROM usuarios WHERE id = $1', [id]);
+
+    if (usuarioResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const usuarioDeletado = usuarioResult.rows[0];
+
+    const result = await pool.query('DELETE FROM usuariosWHERE id = $1', [id]);
 
     if (result.rowCount > 0) {
+      await pool.query(
+        'INSERT INTO auditoria (acao, dados) VALUES ($1, $2)',
+        ['DELETE', JSON.stringify(usuarioDeletado)]
+      );
       res.json({ message: 'usuário deletado com sucesso!' });
     } else {
       res.status(404).json({ message: 'Usuário não encontrado' })
