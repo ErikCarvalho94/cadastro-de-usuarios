@@ -63,7 +63,7 @@ app.put('/usuarios/:id', async (req, res) => {
   
   try{
     const result = await pool.query(
-      'UPDATE usuarios SET nome = $1, email = $2 WHERE id = $3', 
+      'UPDATE usuarios SET nome = $1, email = $2 WHERE id = $3 RETURNING *', 
       [nome, email, id]
     );
 
@@ -80,6 +80,7 @@ app.put('/usuarios/:id', async (req, res) => {
 
     res.json({ message: 'Usuário atualizado!'})
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Erro ao atualizar usuário' });
   }
 });
@@ -88,7 +89,7 @@ app.delete('/usuarios/:id', async (req, res) => {
   const { id } = req.params; // Pega o ID da URL
 
   try {
-    const usuarioResult = await pool.query('SELECT FROM usuarios WHERE id = $1', [id]);
+    const usuarioResult = await pool.query('SELECT * FROM usuarios WHERE id = $1', [id]);
 
     if (usuarioResult.rows.length === 0) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
@@ -96,7 +97,7 @@ app.delete('/usuarios/:id', async (req, res) => {
 
     const usuarioDeletado = usuarioResult.rows[0];
 
-    const result = await pool.query('DELETE FROM usuariosWHERE id = $1', [id]);
+    const result = await pool.query('DELETE FROM usuarios WHERE id = $1', [id]);
 
     if (result.rowCount > 0) {
       await pool.query(
