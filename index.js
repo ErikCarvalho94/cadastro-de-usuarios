@@ -44,10 +44,11 @@ app.post('/usuarios', async (req, res) => {
     );
 
     const usuarioInserido = result.rows[0]
+    const dataHora = new Date().toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'});
 
     await pool.query(
-      'INSERT INTO auditoria (acao, dados) VALUES ($1, $2)',
-      ['inserção',JSON.stringify(usuarioInserido)]
+      'INSERT INTO auditoria (acao, dados, data_hora) VALUES ($1, $2, $3)',
+      ['inserção',JSON.stringify(usuarioInserido), dataHora]
     );
 
     res.status(201).json(usuarioInserido);
@@ -73,9 +74,11 @@ app.put('/usuarios/:id', async (req, res) => {
 
     const usuarioAtualizado = result.rows[0];
 
+    const dataHora = new Date().toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'});
+
     await pool.query(
-      'INSERT INTO auditoria (acao, dados) VALUES ($1, $2)',
-      ['atualização', JSON.stringify(usuarioAtualizado)]
+      'INSERT INTO auditoria (acao, dados, data_hora) VALUES ($1, $2, $3)',
+      ['atualização', JSON.stringify(usuarioAtualizado), dataHora]
     );
 
     res.json({ message: 'Usuário atualizado!'})
@@ -96,13 +99,14 @@ app.delete('/usuarios/:id', async (req, res) => {
     }
 
     const usuarioDeletado = usuarioResult.rows[0];
+    const dataHora = new Date().toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'});
 
     const result = await pool.query('DELETE FROM usuarios WHERE id = $1', [id]);
 
     if (result.rowCount > 0) {
       await pool.query(
-        'INSERT INTO auditoria (acao, dados) VALUES ($1, $2)',
-        ['DELETE', JSON.stringify(usuarioDeletado)]
+        'INSERT INTO auditoria (acao, dados, data_hora) VALUES ($1, $2, $3)',
+        ['DELETE', JSON.stringify(usuarioDeletado), dataHora]
       );
       res.json({ message: 'usuário deletado com sucesso!' });
     } else {
