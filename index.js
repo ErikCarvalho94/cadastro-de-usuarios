@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const dayjs = require('dayjs');
 
 const app = express();
 app.use(cors());
@@ -44,11 +45,13 @@ app.post('/usuarios', async (req, res) => {
     );
 
     const usuarioInserido = result.rows[0]
-    const dataHora = new Date().toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'});
+
+    const dataHoraFortaleza = new Date().toLocaleString('en-US', {timeZone: 'America/Fortaleza'});
+    const data = dayjs(dataHoraFortaleza).format('YYYY-MM-DD HH:mm:ss');
 
     await pool.query(
       'INSERT INTO auditoria (acao, dados, data_hora) VALUES ($1, $2, $3)',
-      ['inserção',JSON.stringify(usuarioInserido), dataHora]
+      ['inserção',JSON.stringify(usuarioInserido), data]
     );
 
     res.status(201).json(usuarioInserido);
@@ -74,11 +77,12 @@ app.put('/usuarios/:id', async (req, res) => {
 
     const usuarioAtualizado = result.rows[0];
 
-    const dataHora = new Date().toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'});
+    const dataHoraFortaleza = new Date().toLocaleString('en-US', {timeZone: 'America/Fortaleza'});
+    const data = dayjs(dataHoraFortaleza).format('YYYY-MM-DD HH:mm:ss');
 
     await pool.query(
       'INSERT INTO auditoria (acao, dados, data_hora) VALUES ($1, $2, $3)',
-      ['atualização', JSON.stringify(usuarioAtualizado), dataHora]
+      ['atualização', JSON.stringify(usuarioAtualizado), data]
     );
 
     res.json({ message: 'Usuário atualizado!'})
@@ -99,14 +103,16 @@ app.delete('/usuarios/:id', async (req, res) => {
     }
 
     const usuarioDeletado = usuarioResult.rows[0];
-    const dataHora = new Date().toLocaleString('pt-BR', {timeZone: 'America/Fortaleza'});
+    
+    const dataHoraFortaleza = new Date().toLocaleString('en-US', {timeZone: 'America/Fortaleza'});
+    const data = dayjs(dataHoraFortaleza).format('YYYY-MM-DD HH:mm:ss');
 
     const result = await pool.query('DELETE FROM usuarios WHERE id = $1', [id]);
 
     if (result.rowCount > 0) {
       await pool.query(
         'INSERT INTO auditoria (acao, dados, data_hora) VALUES ($1, $2, $3)',
-        ['DELETE', JSON.stringify(usuarioDeletado), dataHora]
+        ['DELETE', JSON.stringify(usuarioDeletado), data]
       );
       res.json({ message: 'usuário deletado com sucesso!' });
     } else {
