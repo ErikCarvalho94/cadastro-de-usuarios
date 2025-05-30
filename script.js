@@ -78,5 +78,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    async function listarUsuarios(){
+        try {
+            const resposta = await fetch('http://localhost:3000/usuarios'); //url da api
+            const usuarios = await resposta.json();
+
+            //limpa a tabela antes de adicionar
+            tabelaUsuarios.innerHTML = '';
+
+            usuarios.forEach(usuario => {
+                const linha = document.createElement('tr');
+                
+                const colunaNome = document.createElement('td');
+                colunaNome.textContent = usuario.nome;
+
+                const colunaEmail = document.createElemente ('td');
+                colunaEmail.textContent = usuario.email;
+
+                linha.appendChild(colunaNome);
+                linha.appendChild(colunaEmail);
+                
+                tabelaUsuarios.appendChild(linha);
+            });
+        } catch (error) {
+            console.error('Erro ao listar usuários:', error);
+            mensagem.textContent = 'Erro ao carregar a lista de usuários.';
+            mensagem.className = 'alert alert-danger';
+        }
+    }
+
     carregarUsuarios();
+    listarUsuarios();
 });
