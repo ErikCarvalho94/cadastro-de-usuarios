@@ -25,21 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tabelaUsuarios.appendChild(linha);
     }
 
-    async function carregarUsuarios() {
-        try {
-            const resposta = await fetch('/usuarios');
-            const usuarios = await resposta.json();
-
-            tabelaUsuarios.innerHTML = '';
-
-            usuarios.forEach(usuario => {
-                adicionarUsuarioNaTabela(usuario);
-            });
-        } catch (error) {
-            console.error('Erro ao carregar usuários:', error);
-        }
-    }
-
     formulario.addEventListener('submit', async (evento) => {
         evento.preventDefault();
 
@@ -81,6 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
     async function listarUsuarios(){
         try {
             const resposta = await fetch('http://localhost:3000/usuarios'); //url da api
+            
+            if (!resposta.ok) {
+                throw new Error('Erro ao carregar usuários: ' + resposta.status);
+}
             const usuarios = await resposta.json();
 
             //limpa a tabela antes de adicionar
@@ -92,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const colunaNome = document.createElement('td');
                 colunaNome.textContent = usuario.nome;
 
-                const colunaEmail = document.createElemente ('td');
+                const colunaEmail = document.createElement ('td');
                 colunaEmail.textContent = usuario.email;
 
                 linha.appendChild(colunaNome);
@@ -107,6 +96,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    carregarUsuarios();
     listarUsuarios();
 });
