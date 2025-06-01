@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let idUsuarioParaExcluir = null;
+    
+    const modalConfirmacao = new bootstrap.Modal(document.getElementById('modalConfirmacao'));
+    const botaoConfirmarExclusao = document.getElementById('confirmarExclusao');
 
+    botaoConfirmarExclusao.addEventListener('click', () => {
+        if (idUsuarioParaExcluir) {
+            excluirUsuario(idUsuarioParaExcluir);
+            modalConfirmacao.hide();
+        }
+    })
+    
     const formulario = document.getElementById('formUsuario');
     const nomeInput = document.getElementById('nome');
     const emailInput = document.getElementById('email');
@@ -33,10 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         const botaoExcluir = linha.querySelector('.botao-excluir');
+        
         const botaoEditar = linha.querySelector('.botao-editar');
 
         botaoExcluir.addEventListener('click', () => {
-            excluirUsuario(usuario.id)
+            // Armazenar o ID do usuário a ser excluído
+            idUsuarioParaExcluir = usuario.id;
+            // Abrir o modal
+            modalConfirmacao.show();
         })
         botaoEditar.addEventListener('click', () => {
             editarUsuarios(usuario)
@@ -46,12 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function excluirUsuario(id) {
-        if (!confirm('Tem certeza que deseja excluir este usuário?')) {
-            return;
-        }
-
         try {
-            const resposta = await fetch(`/usuarios/${id}`, {
+            const resposta = await fetch(`http://localhost:3000/usuarios/${id}`, {
                 method: 'DELETE'
         });
 
@@ -126,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mensagem.className = 'alert alert-danger';
         }
     }
+
 
     listarUsuarios();
 });
