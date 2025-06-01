@@ -61,7 +61,34 @@
             </div>
         </div>
     </div>
-    <!-- Modal de Confirmação -->
+    <!-- Modal de Edição -->
+     <div class="modal fade" id="modalEdicao" tabindex="-1" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEdicaoLabel">Editar Usuário</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEdicao">
+          <div class="mb-3">
+            <label for="editarNome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="editarNome" required>
+          </div>
+          <div class="mb-3">
+            <label for="editarEmail" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="editarEmail" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Modal de confirmar exclusão -->
 <div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-labelledby="modalConfirmacaoLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -1,4 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let idUsuarioParaEditar = null;
+    
+    const modalEdicao = new bootstrap.Modal(document.getElementById('modalEdicao'));
+    const formEdicao = document.getElementById('formEdicao');
+    const editarNomeInput = document.getElementById('editarNome');
+    const editarEmailInput = document.getElementById('editarEmail');
+
+    function editarUsuario(usuario) {
+        idUsuarioParaEditar = usuario.id;
+        editarNomeInput.value = usuario.nome;
+        editarEmailInput.value = usuario.email;
+        modalEdicao.show();
+    }
+
+    formEdicao.addEventListener('submit', async (evento) => {
+        evento.preventDefault();
+
+        const nomeEditado = editarNomeInput.value.trim();
+        const emailEditado = editarEmailInput.value.trim();
+
+        if (!nomeEditado || !emailEditado) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        if (!emailValido(emailEditado)) {
+            alert('Por favor, insira um e-mail válido.');
+            return;
+        }
+
+        try {
+            const resposta = await fetch (`http://localhost:3000/usuarios/${idUsuarioParaEditar}`, {
+       
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ nome: nomeEditado, email: emailEditado })
+    });
+            if (resposta.ok) {
+                alert('Usuários atualizado com sucesso!');
+                modalEdicao.hide();
+                listarUsuarios();
+            } else {
+                alert('Erro ao atualizar usuário.');
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar usuário:', error);
+            alert('Erro ao atualizar usuário.');
+        }
+    });
+    
     let idUsuarioParaExcluir = null;
     
     const modalConfirmacao = new bootstrap.Modal(document.getElementById('modalConfirmacao'));
@@ -54,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalConfirmacao.show();
         })
         botaoEditar.addEventListener('click', () => {
-            editarUsuarios(usuario)
+            editarUsuario(usuario)
         })
 
         tabelaUsuarios.appendChild(linha);
