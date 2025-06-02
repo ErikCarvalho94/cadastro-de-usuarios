@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const resposta = await fetch('/usuarios', {
+            const resposta = await fetch('http://localhost:3000/usuarios',  {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ nome, email })
