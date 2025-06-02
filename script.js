@@ -37,12 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ nome: nomeEditado, email: emailEditado })
     });
             if (resposta.ok) {
-                alert('Usuários atualizado com sucesso!');
+                exibirMensagem('Usuário atualizado com sucesso!', 'success');
                 modalEdicao.hide();
                 listarUsuarios();
             } else {
-                alert('Erro ao atualizar usuário.');
-            }
+                exibirMensagem('Erro ao atualizar usuário.', 'danger');            }
         } catch (error) {
             console.error('Erro ao atualizar usuário:', error);
             alert('Erro ao atualizar usuário.');
@@ -73,8 +72,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function exibirMensagem(texto, tipo = 'success') {
-        mensagem.textContent = texto;
-        mensagem.className = `alert alert-${tipo} mt-3`;
+        const mensagem = document.getElementById('mensagem');
+
+        mensagem.innerHTML = `
+            <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+            ${texto}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+            </div>
+        `;
+
+        setTimeout(() => {
+            const alerta = mensagem.querySelector('.alert');
+            if (alerta) {
+                alerta.classList.remove('show');
+                alerta.classList.add('hide');
+                setTimeout(() => mensagem.innerHTML = '', 300);
+            }
+        }, 3000);
     }
 
     function adicionarUsuarioNaTabela(usuario) {
@@ -117,10 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (resposta.ok) {
-            alert('Usuário excluído com sucesso!');
+            exibirMensagem('Usuário excluído com sucesso!', 'success');
             listarUsuarios();
         } else {
-            alert('Erro ao excluir usuário.');
+            exibirMensagem('Erro ao excluir usuário.', 'danger');
         }
     } catch (error) {
             console.error('Erro ao excluir usuário:', error);
