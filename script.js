@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (resposta.ok) {
-            exibirMensagem('Usuário excluído com sucesso!', 'success');
+            exibirMensagem('Usuário excluído com sucesso!', 'warning');
             listarUsuarios();
         } else {
             exibirMensagem('Erro ao excluir usuário.', 'danger');
@@ -198,8 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } catch (error) {
             console.error('Erro ao listar usuários:', error);
-            mensagem.textContent = 'Erro ao carregar a lista de usuários.';
-            mensagem.className = 'alert alert-danger';
+            exibirMensagem('Erro ao listar usuários', 'danger');
         }
     }
 
