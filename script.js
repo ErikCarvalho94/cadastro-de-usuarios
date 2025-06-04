@@ -1,3 +1,5 @@
+const e = require("cors");
+
 document.addEventListener('DOMContentLoaded', () => {
     let idUsuarioParaEditar = null;
     
@@ -168,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (resposta.ok) {
                 const usuarioCriado = await resposta.json();
-                adicionarUsuarioNaTabela(usuarioCriado);
+                //adicionarUsuarioNaTabela(usuarioCriado);
                 exibirMensagem('Usuário adicionado com sucesso!', 'success');
                 formulario.reset();
             } else {
@@ -187,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (!resposta.ok) {
                 throw new Error('Erro ao carregar usuários: ' + resposta.status);
-}
+            }
             const usuarios = await resposta.json();
 
             //limpa a tabela antes de adicionar
@@ -202,6 +204,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let usuarios = [];
+    let paginaAtual = 1;
+    const itensPorPagina = 5;
+
+    function renderizarTabela() {
+        tabelaUsuarios.innerHTML = '';
+
+        const inicio = (paginaAtual - 1) * itensPorPagina;
+        const fim = inicio + itensPorPagina;
+        const usuariosPagina = usuarios.slice(inicio, fim);
+
+        usuariosPagina.forEach(usuario => {
+            adicionarUsuarioNaTabela(usuario);
+        });
+
+        renderizarPaginacao();
+    }
+
+    function renderizarPaginacao() {
+        const totalPaginas = Math.cell(usuarios.length / itensPorPagina);
+        const paginacao = document.getElementById('pagination');
+
+        paginacao.innerHTML = `
+         <li class="page-item ${paginaAtual === 1 ? 'disabled' : ''}">
+            <a classe="page-link" href="#" id="anterior">&lt;</a>
+         </li>
+         <li class="page-item disabled">
+            <span class="page-link">${paginaAtual} / ${totalPaginas}</span>
+         </li>
+         <li class="page-item ${paginaAtual === totalPaginas ? 'disabled' : ''}"
+            <a class="page-link" href="#" id="proximo">&gt;</a>
+         </li>
+         `;
+
+         document.getElementById('anterior').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                renderizarTabela();
+            }
+         });
+
+         document.getElementById('proximo').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (paginaAtual < totalPaginas) {
+                paginaAtual++;
+                renderizarTabela();
+            }
+         });
+    }
+
+    async function listarUsuarios() {
+        try {
+            const resposta = await fetch('http://localhost:3000/usuarios');
+            if (!resposta.ok) {
+                throw new Error('Erro ao carregar usuários: ' +resposta.status);
+            }
+            usuarios = await resposta.json();
+
+            paginaAtual = 1
+            renderizarTabela();
+        } catch (error) {
+            console.error('Erro ao listar usuários:', error);
+            exibirMensagem('Erro ao listar usuários', 'danger');
+        }
+    }
 
     listarUsuarios();
 });
