@@ -1,5 +1,3 @@
-const e = require("cors");
-
 document.addEventListener('DOMContentLoaded', () => {
     let idUsuarioParaEditar = null;
     
@@ -223,17 +221,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderizarPaginacao() {
-        const totalPaginas = Math.cell(usuarios.length / itensPorPagina);
+        const totalPaginas = Math.ceil(usuarios.length / itensPorPagina);
         const paginacao = document.getElementById('pagination');
 
         paginacao.innerHTML = `
          <li class="page-item ${paginaAtual === 1 ? 'disabled' : ''}">
-            <a classe="page-link" href="#" id="anterior">&lt;</a>
+            <a class="page-link" href="#" id="anterior">&lt;</a>
          </li>
          <li class="page-item disabled">
             <span class="page-link">${paginaAtual} / ${totalPaginas}</span>
          </li>
-         <li class="page-item ${paginaAtual === totalPaginas ? 'disabled' : ''}"
+         <li class="page-item ${paginaAtual === totalPaginas ? 'disabled' : ''}">
             <a class="page-link" href="#" id="proximo">&gt;</a>
          </li>
          `;
