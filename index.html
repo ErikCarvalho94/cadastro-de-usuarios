@@ -8,6 +8,7 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="style.css">
   
     <title>Cadastro de usuário</title>
 </head>
@@ -26,12 +27,18 @@
                 <form id="formUsuario">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="nome" placeholder="Digite o nome" required>
+                        <div class="input-group input-hover">
+                          <span class="input-group-text icon-hover"><i class="bi bi-person-fill"></i></span>
+                          <input type="text" class="form-control" id="nome" placeholder="Digite o nome" required>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="email" placeholder="Digite o e-mail" required>
+                        <div class="input-group input-hover">
+                          <span class="input-group-text icon-hover"><i class="bi bi-envelope-fill"></i></span>
+                          <input type="email" class="form-control" id="email" placeholder="Digite o e-mail" required>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Adicionar</button>
