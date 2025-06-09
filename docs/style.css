@@ -1,0 +1,7 @@
+.icon-hover i {
+    transition: transform 0.3s ease;
+}
+
+.input-hover:hover .icon-hover i {
+    transform: rotate(-10deg) scale(1.2);
+}
