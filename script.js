@@ -37,9 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ nome: nomeEditado, email: emailEditado })
     });
             if (resposta.ok) {
-                exibirMensagem('Usuário atualizado com sucesso!', 'success');
-                modalEdicao.hide();
-                listarUsuarios();
+                // Atualiza o usuário no array mantendo a posição
+            const index = usuarios.findIndex(u => u.id === idUsuarioParaEditar);
+            if (index !== -1) {
+                usuarios[index].nome = nomeEditado;
+                usuarios[index].email = emailEditado;
+            }
+            renderizarTabela();
+            modalEdicao.hide();
+            exibirMensagem('Usuário atualizado com sucesso!');
             } else {
                 exibirMensagem('Erro ao atualizar usuário.', 'danger');            }
         } catch (error) {
@@ -99,11 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${usuario.nome}</td>
         <td>${usuario.email}</td>
         <td>
-            <button class="btn btn-warning btn=sm botao-editar me-2" title="Editar">
+            <button class="btn btn-warning btn=sm botao-editar me-1" title="Editar">
             <i class="bi bi-pencil fs-6"></i>
             </button>
             <button class="btn btn-danger btn-sm botao-excluir" title="Excluir">
-             <i class="bi bi-trash fs-6"></i>
+             <i class="bi bi-trash fs-5"></i>
             </button>
         </td>
         `;
@@ -171,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //adicionarUsuarioNaTabela(usuarioCriado);
                 exibirMensagem('Usuário adicionado com sucesso!', 'success');
                 formulario.reset();
+                listarUsuarios();
             } else {
                 const erro = await resposta.json();
                 exibirMensagem(`Erro: ${erro.error}`, 'danger');
@@ -181,26 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    async function listarUsuarios(){
-        try {
-            const resposta = await fetch('http://localhost:3000/usuarios'); //url da api
-            
-            if (!resposta.ok) {
-                throw new Error('Erro ao carregar usuários: ' + resposta.status);
-            }
-            const usuarios = await resposta.json();
-
-            //limpa a tabela antes de adicionar
-            tabelaUsuarios.innerHTML = '';
-
-            usuarios.forEach(usuario => {
-                adicionarUsuarioNaTabela(usuario);
-            });
-        } catch (error) {
-            console.error('Erro ao listar usuários:', error);
-            exibirMensagem('Erro ao listar usuários', 'danger');
-        }
-    }
 
     let usuarios = [];
     let paginaAtual = 1;
