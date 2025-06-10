@@ -256,5 +256,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Alternância de tema claro/escuro
+    const botaoTema = document.getElementById('botao-tema');
+    const iconeTema = document.getElementById('icone-tema');
+
+    function definirTema(escuro) {
+        if (escuro) {
+            document.body.classList.add('tema-escuro');
+            iconeTema.classList.remove('bi-moon');
+            iconeTema.classList.add('bi-sun');
+        } else {
+            document.body.classList.remove('tema-escuro');
+            iconeTema.classList.remove('bi-sun');
+            iconeTema.classList.add('bi-moon');
+        }
+    }
+
+    // Carrega preferência do tema
+    const temaPref = localStorage.getItem('tema');
+    definirTema(temaPref === 'escuro');
+
+    botaoTema.addEventListener('click', () => {
+        const escuro = !document.body.classList.contains('tema-escuro');
+        definirTema(escuro);
+        localStorage.setItem('tema', escuro ? 'escuro' : 'claro');
+    });
+
     listarUsuarios();
 });
