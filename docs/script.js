@@ -282,5 +282,29 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('tema', escuro ? 'escuro' : 'claro');
     });
 
+    // Acessibilidade: ciclo de foco com Tab
+    function getElementosFocaveis() {
+        return Array.from(document.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'))
+            .filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'));
+    }
+
+    document.addEventListener('keydown', function(evento) {
+        if (evento.key === 'Tab') {
+            const botaoTema = document.getElementById('botao-tema');
+            const botaoProximo = document.getElementById('proximo');
+            if (!botaoTema || !botaoProximo) return;
+            // Se Tab no botão '>'
+            if (!evento.shiftKey && document.activeElement === botaoProximo) {
+                evento.preventDefault();
+                botaoTema.focus();
+            }
+            // Se Shift+Tab no botão de tema
+            else if (evento.shiftKey && document.activeElement === botaoTema) {
+                evento.preventDefault();
+                botaoProximo.focus();
+            }
+        }
+    });
+
     listarUsuarios();
 });
