@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const resposta = await fetch (`http://localhost:3000/usuarios/${idUsuarioParaEditar}`, {
+            const resposta = await fetch (`https://cadastro-de-usuarios-0ete.onrender.com/usuarios/${idUsuarioParaEditar}`, {
        
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function excluirUsuario(id) {
         try {
-            const resposta = await fetch(`http://localhost:3000/usuarios/${id}`, {
+            const resposta = await fetch(`https://cadastro-de-usuarios-0ete.onrender.com/usuarios/${id}`, {
                 method: 'DELETE'
         });
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const resposta = await fetch('http://localhost:3000/usuarios',  {
+            const resposta = await fetch('https://cadastro-de-usuarios-0ete.onrender.com/usuarios',  {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ nome, email })
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function listarUsuarios() {
         try {
-            const resposta = await fetch('http://localhost:3000/usuarios');
+            const resposta = await fetch('https://cadastro-de-usuarios-0ete.onrender.com/usuarios');
             if (!resposta.ok) {
                 throw new Error('Erro ao carregar usuários: ' +resposta.status);
             }
