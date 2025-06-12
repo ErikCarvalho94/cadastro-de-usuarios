@@ -80,3 +80,11 @@ body.tema-escuro ::placeholder {
     outline: none;
     box-shadow: 0 0 0 2px #a7ca09;
 }
+
+body #rodape {
+    color: rgb(80, 73, 73);
+}
+
+body.tema-escuro #rodape {
+    color: #f5f5f5;
+}

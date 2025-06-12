@@ -71,6 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('email');
     const mensagem = document.getElementById('mensagem');
     const tabelaUsuarios = document.querySelector('#tabelaUsuarios tbody');
+    const botaoAdicionar = formulario.querySelector('button[type="submit"]');
+    botaoAdicionar.disabled = true;
+
+    function verificarCampos() {
+        botaoAdicionar.disabled = !(nomeInput.value.trim() && emailInput.value.trim());
+    }
+    nomeInput.addEventListener('input', verificarCampos);
+    emailInput.addEventListener('input', verificarCampos);
 
     function emailValido(email) {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -177,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 //adicionarUsuarioNaTabela(usuarioCriado);
                 exibirMensagem('Usuário adicionado com sucesso!', 'success');
                 formulario.reset();
+                verificarCampos();
                 listarUsuarios();
             } else {
                 const erro = await resposta.json();
