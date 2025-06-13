@@ -113,10 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
         <td>${usuario.nome}</td>
         <td>${usuario.email}</td>
         <td>
-            <button class="btn btn-warning btn=sm botao-editar me-1" title="Editar">
+            <button class="btn btn-outline-warning btn=sm botao-editar me-1" title="Editar">
             <i class="bi bi-pencil fs-6"></i>
             </button>
-            <button class="btn btn-danger btn-sm botao-excluir" title="Excluir">
+            <button class="btn btn-outline-danger btn-sm botao-excluir" title="Excluir">
              <i class="bi bi-trash fs-5"></i>
             </button>
         </td>
