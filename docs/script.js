@@ -315,5 +315,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Dropdown de tamanho de texto
+const botaoTamanhoTexto = document.getElementById('tamanhoTexto');
+const menuTamanhoTexto = document.getElementById('menu-tamanho-texto');
+
+// Exibe/oculta o menu ao clicar no botão
+botaoTamanhoTexto.addEventListener('click', (e) => {
+  e.stopPropagation();
+  menuTamanhoTexto.style.display = menuTamanhoTexto.style.display === 'block' ? 'none' : 'block';
+});
+// Fecha o menu ao clicar fora
+window.addEventListener('click', () => {
+  menuTamanhoTexto.style.display = 'none';
+});
+menuTamanhoTexto.addEventListener('click', (e) => e.stopPropagation());
+
+// Funções para alterar o tamanho do texto
+const root = document.documentElement;
+const diminuir = document.getElementById('diminuirTexto');
+const normal = document.getElementById('textoNormal');
+const aumentar = document.getElementById('aumentarTexto');
+
+diminuir.addEventListener('click', () => {
+  root.style.fontSize = '14px';
+  menuTamanhoTexto.style.display = 'none';
+});
+normal.addEventListener('click', () => {
+  root.style.fontSize = '16px';
+  menuTamanhoTexto.style.display = 'none';
+});
+aumentar.addEventListener('click', () => {
+  root.style.fontSize = '20px';
+  menuTamanhoTexto.style.display = 'none';
+});
+
     listarUsuarios();
 });
