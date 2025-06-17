@@ -249,23 +249,36 @@ document.addEventListener('DOMContentLoaded', () => {
          });
     }
 
+const containerPrincipal = document.querySelector('.container.mt-4');
+const barraLoader = document.createElement('div');
+barraLoader.id = 'barra-loader-usuarios';
+barraLoader.className = 'd-flex justify-content-center align-items-center my-3';
+barraLoader.innerHTML = `
+  <div class="progress w-50" style="height: 8px;">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: 100%"></div>
+  </div>
+`;
+
     async function listarUsuarios() {
         try {
+            containerPrincipal.insertBefore(barraLoader, containerPrincipal.firstChild);
             const resposta = await fetch('https://cadastro-de-usuarios-0ete.onrender.com/usuarios');
             if (!resposta.ok) {
                 throw new Error('Erro ao carregar usuários: ' +resposta.status);
             }
             usuarios = await resposta.json();
-
-            paginaAtual = 1
+            paginaAtual = 1;
             renderizarTabela();
         } catch (error) {
             console.error('Erro ao listar usuários:', error);
             exibirMensagem('Erro ao listar usuários', 'danger');
+        } finally {
+            if (document.getElementById('barra-loader-usuarios')) {
+                document.getElementById('barra-loader-usuarios').remove();
+            }
         }
     }
 
-    // Alternância de tema claro/escuro
     const botaoTema = document.getElementById('botao-tema');
     const iconeTema = document.getElementById('icone-tema');
 
