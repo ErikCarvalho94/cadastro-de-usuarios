@@ -1,3 +1,8 @@
+body.tema-escuro #mensagem .alert {
+    background-color: var(--bs-alert-bg, #fff) !important;
+    color: var(--bs-alert-color, #000) !important;
+    border-color: var(--bs-alert-border-color, #dee2e6) !important;
+}
 .icon-hover i {
     transition: transform 0.3s ease;
 }
@@ -56,6 +61,7 @@ body.tema-escuro .alert {
     color: #f5f5f5;
     border-color: #444;
 }
+
 
 body.tema-escuro ::placeholder {
     color: #f5f5f5 !important;
