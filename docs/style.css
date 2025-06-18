@@ -3,6 +3,15 @@ body.tema-escuro #mensagem .alert {
     color: var(--bs-alert-color, #000) !important;
     border-color: var(--bs-alert-border-color, #dee2e6) !important;
 }
+
+body.tema-escuro #barra-loader-usuarios .progress-bar {
+    background-color: var(--bs-progress-bar-bg, #0d6efd) !important;
+}
+
+body.tema-escuro #barra-loader-usuarios .progress {
+    background-color: var(--bs-progress-bg, #efe9ee) !important;
+}
+
 .icon-hover i {
     transition: transform 0.3s ease;
 }
