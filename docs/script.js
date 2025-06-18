@@ -31,13 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const resposta = await fetch (`https://cadastro-de-usuarios-0ete.onrender.com/usuarios/${idUsuarioParaEditar}`, {
-       
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ nome: nomeEditado, email: emailEditado })
     });
             if (resposta.ok) {
-                // Atualiza o usuário no array mantendo a posição
             const index = usuarios.findIndex(u => u.id === idUsuarioParaEditar);
             if (index !== -1) {
                 usuarios[index].nome = nomeEditado;
@@ -127,9 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const botaoEditar = linha.querySelector('.botao-editar');
 
         botaoExcluir.addEventListener('click', () => {
-            // Armazenar o ID do usuário a ser excluído
             idUsuarioParaExcluir = usuario.id;
-            // Abrir o modal
             modalConfirmacao.show();
         })
         botaoEditar.addEventListener('click', () => {
@@ -182,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (resposta.ok) {
                 const usuarioCriado = await resposta.json();
-                //adicionarUsuarioNaTabela(usuarioCriado);
                 exibirMensagem('Usuário adicionado com sucesso!', 'success');
                 formulario.reset();
                 verificarCampos();
@@ -294,7 +289,6 @@ barraLoader.innerHTML = `
         }
     }
 
-    // Carrega preferência do tema
     const temaPref = localStorage.getItem('tema');
     definirTema(temaPref === 'escuro');
 
@@ -315,12 +309,10 @@ barraLoader.innerHTML = `
             const botaoTema = document.getElementById('botao-tema');
             const botaoProximo = document.getElementById('proximo');
             if (!botaoTema || !botaoProximo) return;
-            // Se Tab no botão '>'
             if (!evento.shiftKey && document.activeElement === botaoProximo) {
                 evento.preventDefault();
                 botaoTema.focus();
             }
-            // Se Shift+Tab no botão de tema
             else if (evento.shiftKey && document.activeElement === botaoTema) {
                 evento.preventDefault();
                 botaoProximo.focus();
@@ -328,22 +320,18 @@ barraLoader.innerHTML = `
         }
     });
 
-    // Dropdown de tamanho de texto
 const botaoTamanhoTexto = document.getElementById('tamanhoTexto');
 const menuTamanhoTexto = document.getElementById('menu-tamanho-texto');
 
-// Exibe/oculta o menu ao clicar no botão
 botaoTamanhoTexto.addEventListener('click', (e) => {
   e.stopPropagation();
   menuTamanhoTexto.style.display = menuTamanhoTexto.style.display === 'block' ? 'none' : 'block';
 });
-// Fecha o menu ao clicar fora
 window.addEventListener('click', () => {
   menuTamanhoTexto.style.display = 'none';
 });
 menuTamanhoTexto.addEventListener('click', (e) => e.stopPropagation());
 
-// Funções para alterar o tamanho do texto
 const root = document.documentElement;
 const diminuir = document.getElementById('diminuirTexto');
 const normal = document.getElementById('textoNormal');

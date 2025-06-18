@@ -16,13 +16,10 @@ body.tema-escuro .bg-primary {
     color: #fff !important;
 }
 
-body.tema-escuro .table {
-    color: #f5f5f5;
-    background-color: #23272b;
-}
 
-body.tema-escuro .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #23272b;
+body.tema-escuro .table-striped > tbody > tr > td {
+    color: #f5f5f5 !important;
+    background-color: #282b23 !important;
 }
 
 body.tema-escuro .form-control,
