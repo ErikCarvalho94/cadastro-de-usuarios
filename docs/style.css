@@ -36,6 +36,11 @@ body.tema-escuro .table-striped > tbody > tr > td {
     background-color: #282b23 !important;
 }
 
+body.tema-escuro .table thead th {
+    color: #f5f5f5 !important;
+    background-color: #23272b !important;
+}
+
 body.tema-escuro .form-control,
 body.tema-escuro .input-group-text {
     background-color: #23272b;
